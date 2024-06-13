@@ -7,12 +7,21 @@ app.listen(port, () => {
   console.log(`Listening on port ${port}`);
 });
 
-app.get{"/api/pirates/:id", (req, res) => {
+app.get("/api/pirates/:id", (req, res) => {
     const id = req.params.id;
-    const pirate = pirates.find((pirate) => pirate.id === id);
+    const pirate = getPirate(id);
     if (!pirate) {
-        res.status(404).send("Pirate not found");
+        res.status(404).send({ error: `Pirate ${id} not found`});
     } else {
-        res.send(pirate);
+        res.send({ data: pirate });
     }
+})
+
+function getPirate(id) {
+    const pirates = [
+        { id: 1, name: 'Jack Sparrow', age: 32 },
+        { id: 2, name: 'Blackbeard', age: 55 },
+        { id: 3, name: 'Captain Hook', age: 43 },
+    ];
+    return pirates.find(p => p.id == id);
 }
